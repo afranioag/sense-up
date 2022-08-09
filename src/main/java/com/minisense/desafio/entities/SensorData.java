@@ -2,12 +2,16 @@ package com.minisense.desafio.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "tb_sensorData")
@@ -20,12 +24,21 @@ public class SensorData implements Serializable{
 	private Date timestamp;
 	private Double valueSensor;
 	
+	@ManyToOne
+	@JoinColumn(name = "sensordata_id")
+	private DataStream streams;
+	
+	@ManyToOne
+	@JoinColumn(name = "unit_id")
+	private MeasurementUnit unit;
+	
 	public SensorData() {}
 
-	public SensorData(Long id, Double valueSensor, Date timestamp) {
+	public SensorData(Long id, Double valueSensor, Date timestamp, DataStream streams) {
 		this.id = id;
 		this.valueSensor = valueSensor;
 		this.timestamp = timestamp;
+		this.streams = streams;
 	}
 
 	public Long getId() {
@@ -51,6 +64,37 @@ public class SensorData implements Serializable{
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
-	
-	
+
+	public DataStream getStreams() {
+		return streams;
+	}
+
+	public void setStreams(DataStream streams) {
+		this.streams = streams;
+	}
+
+	public MeasurementUnit getUnit() {
+		return unit;
+	}
+
+	public void setUnit(MeasurementUnit unit) {
+		this.unit = unit;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SensorData other = (SensorData) obj;
+		return Objects.equals(id, other.id);
+	}
 }

@@ -18,6 +18,7 @@ public class MeasurementUnit implements Serializable{
 	private Long id;
 	private String symbol;
 	private String description;
+
 	
 	public MeasurementUnit() {}
 
