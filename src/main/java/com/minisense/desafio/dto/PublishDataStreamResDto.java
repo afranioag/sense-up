@@ -1,8 +1,10 @@
 package com.minisense.desafio.dto;
 
+import java.io.Serializable;
 import java.time.Instant;
 
-public class PublishDataStreamResDto {
+public class PublishDataStreamResDto implements Serializable{
+	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	private Long unitId;

@@ -1,12 +1,15 @@
 package com.minisense.desafio.dto;
 
+import java.io.Serializable;
 import java.time.Instant;
 
-public class PublishDataStreamReqDto {
+public class PublishDataStreamReqDto implements Serializable{
+	private static final long serialVersionUID = 1L;
 	
 	public Instant timestamp;
 	public Double value;
 	
+	public PublishDataStreamReqDto() {}
 	
 	public Instant getTimestamp() {
 		return timestamp;

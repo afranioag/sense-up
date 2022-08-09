@@ -1,11 +1,13 @@
 package com.minisense.desafio.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.minisense.desafio.entities.SensorDevice;
 
-public class GetSensorDeviceDto {
+public class GetSensorDeviceDto implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	private Long id;
 	private String key;
@@ -13,6 +15,7 @@ public class GetSensorDeviceDto {
 	private String description;
 	private List<DataStreamResDto> streams = new ArrayList<>();
 
+	public GetSensorDeviceDto() {}
 	
 	public GetSensorDeviceDto(Long id, String key, String label, String description, List<DataStreamResDto> streams) {
 		this.id = id;

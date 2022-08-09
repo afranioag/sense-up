@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,27 +22,21 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@PostMapping
-	public HttpStatus save( @RequestBody UserDto userDto ) {
-		userService.saveUser(userDto);
-		
-		return HttpStatus.OK;
-	}
-	
+//	@PostMapping
+//	public ResponseEntity<Object> save( @RequestBody UserDto userDto ) {
+//		userService.saveUser(userDto);
+//		URI uri = 
+//		return ResponseEntity.created();
+//	}
 	
 	@GetMapping(value = "/{id}")
-	public UserDto findById(@PathVariable("id") Long id) {
-		return userService.findById(id);
+	public ResponseEntity<UserDto> findById(@PathVariable("id") Long id) {
+		return ResponseEntity.ok().body(userService.findById(id));
 	}
 	
 	@GetMapping
-	public List<UserDto> findAll(){
-		return userService.finalAll();
+	public ResponseEntity<List<UserDto>> findAll(){
+		return ResponseEntity.ok().body(userService.finalAll());
 	}
-	
-	
-	
-
-	
 	
 }

@@ -1,11 +1,15 @@
 package com.minisense.desafio.dto;
 
-public class GetMeasurementUnitResDto {
+import java.io.Serializable;
+
+public class GetMeasurementUnitResDto implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	private Long id;
 	private String symbol;
 	private String description;
 	
+	public GetMeasurementUnitResDto() {}
 	
 	public GetMeasurementUnitResDto(Long id, String symbol, String description) {
 		this.id = id;

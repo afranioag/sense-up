@@ -1,6 +1,9 @@
 package com.minisense.desafio.dto;
 
-public class SensorDeviceReqDto {
+import java.io.Serializable;
+
+public class SensorDeviceReqDto implements Serializable{
+	private static final long serialVersionUID = 1L;
 	
 	
 	private String label;

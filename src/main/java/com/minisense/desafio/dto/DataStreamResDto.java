@@ -1,6 +1,9 @@
 package com.minisense.desafio.dto;
 
-public class DataStreamResDto {
+import java.io.Serializable;
+
+public class DataStreamResDto implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	private Long id;
 	private String key;
