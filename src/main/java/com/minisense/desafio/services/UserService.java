@@ -20,12 +20,13 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	
-	public void saveUser (UserDto dto) {
+	@Transactional
+	public UserDto saveUser (UserDto dto) {
 		User user = new User();
 		user.setEmail(dto.getEmail());
 		user.setUserName(dto.getUserName());
-		userRepository.save(user);
+		
+		return new UserDto(userRepository.save(user));
 	}
 	
 	@Transactional(readOnly = true)
