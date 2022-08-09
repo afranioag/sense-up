@@ -3,6 +3,8 @@ package com.minisense.desafio.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.minisense.desafio.entities.SensorDevice;
+
 public class GetSensorDeviceDto {
 
 	private Long id;
@@ -18,6 +20,14 @@ public class GetSensorDeviceDto {
 		this.label = label;
 		this.description = description;
 		this.streams = streams;
+	}
+	
+	public GetSensorDeviceDto(SensorDevice device) {
+		this.id = device.getId();
+		this.key = device.getKeyDevice();
+		this.label = device.getLabel();
+		this.description = device.getDescription();
+		// this.streams = device.getStreams(); falta implementar
 	}
 
 
