@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,10 +28,16 @@ public class User implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String userName;
+	
+	/* O banco só irá permitir emails diferentes */
+	@Column(unique = true)
 	private String email;
 	private String password;
 	
-	@ManyToMany
+	/*
+	 * O tetch.eager está sendo usado, vendo que o teremos apenas duas ROLES.
+	 */
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "tb_user_role", 
 			joinColumns = @JoinColumn(name = "user_id"),
 			inverseJoinColumns = @JoinColumn (name = "role_id"))
@@ -75,15 +83,8 @@ public class User implements Serializable{
 		return devices;
 	}
 	
-	
-
 	public Set<Role> getRoles() {
 		return roles;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
 	}
 
 	public String getPassword() {
@@ -94,6 +95,12 @@ public class User implements Serializable{
 		this.password = password;
 	}
 
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

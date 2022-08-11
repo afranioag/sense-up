@@ -13,16 +13,16 @@ public class GetSensorDeviceDto implements Serializable{
 	private String key;
 	private String label;
 	private String description;
+	
 	private List<DataStreamResDto> streams = new ArrayList<>();
 
 	public GetSensorDeviceDto() {}
 	
-	public GetSensorDeviceDto(Long id, String key, String label, String description, List<DataStreamResDto> streams) {
+	public GetSensorDeviceDto(Long id, String key, String label, String description) {
 		this.id = id;
 		this.key = key;
 		this.label = label;
 		this.description = description;
-		this.streams = streams;
 	}
 	
 	public GetSensorDeviceDto(SensorDevice device) {
@@ -30,8 +30,13 @@ public class GetSensorDeviceDto implements Serializable{
 		this.key = device.getKeyDevice();
 		this.label = device.getLabel();
 		this.description = device.getDescription();
-		// this.streams = device.getStreams(); falta implementar
+		//this.streams = device.getStreams();
 	}
+	
+//	public GetSensorDeviceDto(SensorDevice device, List<DataStreamResDto> streams) {
+//		this(device);
+//		streams.forEach(stream -> this.streams.add(new StreamDto(stream))); // Falta criar esse detalhe para salvar a lista de streams
+//	}
 
 
 	public Long getId() {

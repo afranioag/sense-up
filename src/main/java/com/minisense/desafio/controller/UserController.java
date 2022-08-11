@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.minisense.desafio.dto.UserDto;
+import com.minisense.desafio.dto.UserInsertDto;
 import com.minisense.desafio.services.UserService;
 
 @RestController
@@ -26,8 +27,8 @@ public class UserController {
 	private UserService userService;
 	
 	@PostMapping
-	public ResponseEntity<UserDto> insert(@RequestBody UserDto dto) {
-		dto = userService.saveUser(dto);
+	public ResponseEntity<UserDto> insert(@RequestBody UserInsertDto insertDto) {
+		UserDto dto = userService.save(insertDto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);

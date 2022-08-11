@@ -1,6 +1,8 @@
 package com.minisense.desafio.dto;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.minisense.desafio.entities.User;
 
@@ -11,12 +13,22 @@ public class UserDto implements Serializable{
 	private String userName;
 	private String email;
 	
+	Set<RoleDto> roles = new HashSet<>();
+	
+	
 	public UserDto() {}
 	
+	public UserDto(Long id, String userName, String email) {
+		this.id = id;
+		this.userName = userName;
+		this.email = email;
+	}
+
 	public UserDto(User user) {
 		this.id = user.getId();
 		this.userName = user.getUserName();
 		this.email = user.getEmail();
+		user.getRoles().forEach(role -> this.roles.add(new RoleDto(role)));
 	}
 	
 	
@@ -42,6 +54,10 @@ public class UserDto implements Serializable{
 	
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Set<RoleDto> getRoles() {
+		return roles;
 	}
 	
 }

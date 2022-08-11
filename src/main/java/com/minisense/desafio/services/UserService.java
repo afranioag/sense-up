@@ -9,13 +9,18 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.minisense.desafio.dto.RoleDto;
 import com.minisense.desafio.dto.UserDto;
+import com.minisense.desafio.dto.UserInsertDto;
+import com.minisense.desafio.entities.Role;
 import com.minisense.desafio.entities.User;
 import com.minisense.desafio.exceptions.DatabaseException;
 import com.minisense.desafio.exceptions.UserNotFoundException;
+import com.minisense.desafio.repositories.RoleRepository;
 import com.minisense.desafio.repositories.UserRepository;
 
 @Service
@@ -25,11 +30,20 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Autowired
+	private RoleRepository roleRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder passworEncoder;
+	
 	@Transactional
-	public UserDto saveUser (UserDto dto) {
+	public UserDto save(UserInsertDto dto) {
+		System.out.println("--**--");
+		System.out.println(dto.getRoles());
+		
 		User user = new User();
-		user.setEmail(dto.getEmail());
-		user.setUserName(dto.getUserName());
+		copyDtoUser(dto, user);
+		user.setPassword(passworEncoder.encode(dto.getPassword()));
 		return new UserDto(userRepository.save(user));
 	}
 	
@@ -50,8 +64,7 @@ public class UserService {
 	public UserDto update(Long id, UserDto dto) {
 		try {
 			User user = userRepository.getReferenceById(id);
-			user.setEmail(dto.getEmail());
-			user.setUserName(dto.getUserName());
+			copyDtoUser(dto, user);
 			user = userRepository.save(user);
 			return new UserDto(user);
 		}
@@ -72,6 +85,17 @@ public class UserService {
 		}	
 	}
 
+	private void copyDtoUser(UserDto dto, User user) {
+		user.setEmail(dto.getEmail());
+		user.setUserName(dto.getUserName());
+		System.out.println("--*--*--");
+		user.getRoles().clear();
+		for(RoleDto roleDto: dto.getRoles()) {
+			Role role = roleRepository.getReferenceById(roleDto.getId());
+			user.getRoles().add(role);
+		}
+	}
+	
 }
 
 
