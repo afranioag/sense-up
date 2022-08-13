@@ -16,7 +16,6 @@ public class AppConfig {
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
 	@Bean
 	public JwtAccessTokenConverter accessTokenConverter() {
 		JwtAccessTokenConverter tokenConverter = new JwtAccessTokenConverter();
@@ -24,6 +23,9 @@ public class AppConfig {
 		return tokenConverter;
 	}
 
+	/***
+	 * Bean para acessar o token
+	 ***/
 	@Bean
 	public JwtTokenStore tokenStore() {
 		return new JwtTokenStore(accessTokenConverter());

@@ -15,19 +15,16 @@ import java.util.Arrays;
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
-
 	@Autowired
 	private Environment env;
-	
+
 	@Autowired
 	private JwtTokenStore tokenStore;
-	
-	private static final String[] PUBLIC = { "/h2-console/**" , "/auth/token" };
-	
-	private static final String[] OPERATOR_OR_ADMIN = { "/users/**" };
-	
-	private static final String[] ADMIN = { "/users/**" };	
-	
+
+	private static final String[] PUBLIC = { "/auth/token", "/h2-console/**" };
+	private static final String[] OPERATOR_OR_ADMIN = { "/api/v1/devices/**" };
+	private static final String[] ADMIN = { "/api/v1/users/**" };
+
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
 		resources.tokenStore(tokenStore);
@@ -36,16 +33,16 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 
-		// H2
+		// Liberando o H2
 		if (Arrays.asList(env.getActiveProfiles()).contains("test")) {
 			http.headers().frameOptions().disable();
 		}
-		
+
 		http.authorizeRequests()
-		.antMatchers(PUBLIC).denyAll()
-		.antMatchers(HttpMethod.GET, OPERATOR_OR_ADMIN).denyAll()
-		.antMatchers(OPERATOR_OR_ADMIN).hasAnyRole("ADMIN")
+		.antMatchers(PUBLIC).permitAll()
+		.antMatchers(HttpMethod.GET, OPERATOR_OR_ADMIN).permitAll()
+		.antMatchers(OPERATOR_OR_ADMIN).hasAnyRole("ADMIN", "OPERATOR")
 		.antMatchers(ADMIN).hasRole("ADMIN")
 		.anyRequest().authenticated();
-	}	
+	}
 }
