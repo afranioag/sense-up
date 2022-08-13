@@ -10,7 +10,7 @@ public class UserDto implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private String userName;
+	private String name;
 	private String email;
 	
 	Set<RoleDto> roles = new HashSet<>();
@@ -18,15 +18,15 @@ public class UserDto implements Serializable{
 	
 	public UserDto() {}
 	
-	public UserDto(Long id, String userName, String email) {
+	public UserDto(Long id, String name, String email) {
 		this.id = id;
-		this.userName = userName;
+		this.name = name;
 		this.email = email;
 	}
 
 	public UserDto(User user) {
 		this.id = user.getId();
-		this.userName = user.getUserName();
+		this.name = user.getName();
 		this.email = user.getEmail();
 		user.getRoles().forEach(role -> this.roles.add(new RoleDto(role)));
 	}
@@ -40,12 +40,12 @@ public class UserDto implements Serializable{
 		this.id = id;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getName() {
+		return name;
 	}
 	
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setName(String userName) {
+		this.name = userName;
 	}
 	
 	public String getEmail() {

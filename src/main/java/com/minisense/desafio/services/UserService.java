@@ -6,9 +6,14 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +29,8 @@ import com.minisense.desafio.repositories.RoleRepository;
 import com.minisense.desafio.repositories.UserRepository;
 
 @Service
-public class UserService {
-
+public class UserService implements UserDetailsService {
+	private static Logger logger = LoggerFactory.getLogger(UserService.class);
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -34,16 +39,13 @@ public class UserService {
 	private RoleRepository roleRepository;
 	
 	@Autowired
-	private BCryptPasswordEncoder passworEncoder;
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Transactional
 	public UserDto save(UserInsertDto dto) {
-		System.out.println("--**--");
-		System.out.println(dto.getRoles());
-		
 		User user = new User();
 		copyDtoUser(dto, user);
-		user.setPassword(passworEncoder.encode(dto.getPassword()));
+		user.setPassword(passwordEncoder.encode(dto.getPassword()));
 		return new UserDto(userRepository.save(user));
 	}
 	
@@ -87,15 +89,25 @@ public class UserService {
 
 	private void copyDtoUser(UserDto dto, User user) {
 		user.setEmail(dto.getEmail());
-		user.setUserName(dto.getUserName());
-		System.out.println("--*--*--");
+		user.setName(dto.getName());
 		user.getRoles().clear();
 		for(RoleDto roleDto: dto.getRoles()) {
 			Role role = roleRepository.getReferenceById(roleDto.getId());
 			user.getRoles().add(role);
 		}
 	}
-	
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = userRepository.findByEmail(username);
+		if(user == null) {
+			logger.error("User not found for email: " + username);
+			throw new UsernameNotFoundException("Email not found");
+		}
+
+		logger.info("User found: " + username);
+		return user;
+	}
 }
 
 

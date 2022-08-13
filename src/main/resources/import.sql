@@ -1,8 +1,8 @@
 /* Adicionando usuarios */
-INSERT INTO tb_user (email, user_name, password) VALUES ('sergio@gmail.com', 'sergio', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
-INSERT INTO tb_user (email, user_name, password) VALUES ('isaac@gmail.com', 'isaac', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
-INSERT INTO tb_user (email, user_name, password) VALUES ('afranio.cet@gmail.com', 'afranio', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
-INSERT INTO tb_user (email, user_name, password) VALUES ('dacio@gmail.com', 'dacio', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
+INSERT INTO tb_user (email, name, password) VALUES ('sergio@gmail.com', 'sergio', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
+INSERT INTO tb_user (email, name, password) VALUES ('isaac@gmail.com', 'isaac', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
+INSERT INTO tb_user (email, name, password) VALUES ('afranio.cet@gmail.com', 'afranio', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
+INSERT INTO tb_user (email, name, password) VALUES ('dacio@gmail.com', 'dacio', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
 
 
 /* Adicionando regras */
