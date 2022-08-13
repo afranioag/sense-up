@@ -25,7 +25,7 @@ public class ControllerExceptionHandler {
 	}
 	
 	@ExceptionHandler(DatabaseException.class)
-	public ResponseEntity<StandardError> entityNotFound(DatabaseException e, HttpServletRequest request) {
+	public ResponseEntity<StandardError> databaseException(DatabaseException e, HttpServletRequest request) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		StandardError err = new StandardError();
 		err.setTimestamp(Instant.now());
@@ -34,5 +34,21 @@ public class ControllerExceptionHandler {
 		err.setMessage(e.getMessage());
 		err.setPath(request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
+	}
+
+
+	/*
+	*	Metodos customizados para erros de authenticação
+	*/
+	@ExceptionHandler(ForbiddenException.class)
+	public ResponseEntity<OauthError> forbiddenException(ForbiddenException e, HttpServletRequest request) {
+		OauthError err = new OauthError("Forbidden", e.getMessage());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
+	}
+
+	@ExceptionHandler(UnauthorizedException.class)
+	public ResponseEntity<OauthError> unauthorizedException(UnauthorizedException e, HttpServletRequest request) {
+		OauthError err = new OauthError("Unauthorized", e.getMessage());
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(err);
 	}
 }
