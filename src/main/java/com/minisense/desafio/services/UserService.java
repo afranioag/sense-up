@@ -1,11 +1,15 @@
 package com.minisense.desafio.services;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import javax.persistence.EntityNotFoundException;
-
+import com.minisense.desafio.dto.RoleDto;
+import com.minisense.desafio.dto.UserAddRoleDto;
+import com.minisense.desafio.dto.UserDto;
+import com.minisense.desafio.dto.UserInsertDto;
+import com.minisense.desafio.entities.Role;
+import com.minisense.desafio.entities.User;
+import com.minisense.desafio.exceptions.DatabaseException;
+import com.minisense.desafio.exceptions.UserNotFoundException;
+import com.minisense.desafio.repositories.RoleRepository;
+import com.minisense.desafio.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +22,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.minisense.desafio.dto.RoleDto;
-import com.minisense.desafio.dto.UserDto;
-import com.minisense.desafio.dto.UserInsertDto;
-import com.minisense.desafio.entities.Role;
-import com.minisense.desafio.entities.User;
-import com.minisense.desafio.exceptions.DatabaseException;
-import com.minisense.desafio.exceptions.UserNotFoundException;
-import com.minisense.desafio.repositories.RoleRepository;
-import com.minisense.desafio.repositories.UserRepository;
+import javax.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -87,6 +87,45 @@ public class UserService implements UserDetailsService {
 		}	
 	}
 
+	@Transactional
+    public UserDto addRoles(Long userId, UserAddRoleDto dto) {
+		try {
+			User user = userRepository.getOne(userId);
+			Role role = roleRepository.getOne(dto.getRoleId());
+			user.getRoles().add(role);
+			user = userRepository.save(user);
+
+			return new UserDto(user);
+		}
+		catch (EntityNotFoundException e) {
+			throw new UserNotFoundException();
+		}
+    }
+
+	public void removeRoles(Long userId, UserAddRoleDto dto) {
+		try {
+			User user = userRepository.findById(userId).get();
+			Role role = roleRepository.getOne(dto.getRoleId());
+			Set<Role> roles = user.getRoles();
+			user.getRoles().clear();
+
+			roles.forEach(r -> {
+				if(!r.getAuthority().equals(role.getAuthority())){
+					user.getRoles().add(r);
+				}
+			});
+
+			userRepository.save(user);
+		}
+		catch(EmptyResultDataAccessException e) {
+			throw new UserNotFoundException();
+		}
+		catch (DataIntegrityViolationException e) {
+			throw new DatabaseException();
+		}
+	}
+
+
 	private void copyDtoUser(UserDto dto, User user) {
 		user.setEmail(dto.getEmail());
 		user.setName(dto.getName());
@@ -96,7 +135,6 @@ public class UserService implements UserDetailsService {
 			user.getRoles().add(role);
 		}
 	}
-
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userRepository.findByEmail(username);
