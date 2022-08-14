@@ -30,7 +30,7 @@ public class User implements UserDetails, Serializable{
 	private Long id;
 	private String name;
 	
-	/* O banco só irá permitir emails diferentes */
+	/* O banco só permitirá emails diferentes */
 	@Column(unique = true)
 	private String email;
 	private String password;

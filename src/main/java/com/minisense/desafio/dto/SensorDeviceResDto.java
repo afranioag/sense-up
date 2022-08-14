@@ -1,5 +1,7 @@
 package com.minisense.desafio.dto;
 
+import com.minisense.desafio.entities.SensorDevice;
+
 import java.io.Serializable;
 
 public class SensorDeviceResDto implements Serializable{
@@ -8,18 +10,20 @@ public class SensorDeviceResDto implements Serializable{
 	private Long id;
 	private String label;
 	private String description;
-	private String key;
 	
 	
 	public SensorDeviceResDto() {}
 	
-	public SensorDeviceResDto(Long id, String label, String description, String key) {
+	public SensorDeviceResDto(Long id, String label, String description) {
 		this.id = id;
 		this.label = label;
 		this.description = description;
-		this.key = key;
 	}
-
+	public SensorDeviceResDto(SensorDevice device) {
+		this.id = device.getId();
+		this.label = device.getLabel();
+		this.description = device.getDescription();
+	}
 
 
 	public Long getId() {
@@ -45,15 +49,5 @@ public class SensorDeviceResDto implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public String getKey() {
-		return key;
-	}
-
-	public void setKey(String key) {
-		this.key = key;
-	}
-	
-	
 
 }

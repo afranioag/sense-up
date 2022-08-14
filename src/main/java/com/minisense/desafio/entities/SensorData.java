@@ -1,17 +1,10 @@
 package com.minisense.desafio.entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
 
 @Entity
 @Table(name = "tb_sensorData")
@@ -25,7 +18,7 @@ public class SensorData implements Serializable{
 	private Double valueSensor;
 	
 	@ManyToOne
-	@JoinColumn(name = "sensordata_id")
+	@JoinColumn(name = "dataStream_id")
 	private DataStream streams;
 	
 	@ManyToOne

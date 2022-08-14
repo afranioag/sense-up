@@ -1,24 +1,33 @@
 package com.minisense.desafio.dto;
 
+import com.minisense.desafio.entities.SensorData;
+
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Date;
 
-public class PublishDataStreamResDto implements Serializable{
+public class SensorDataPublishDto implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	private Long unitId;
-	public Instant timestamp;
+	public Long timestamp;
 	public Double value;
 	
-	public PublishDataStreamResDto() {}
+	public SensorDataPublishDto() {}
 	
-	public PublishDataStreamResDto(Long id, Long unitId, Instant timestamp, Double value) {
-		super();
+	public SensorDataPublishDto(Long id, Long unitId, Date timestamp, Double value) {
 		this.id = id;
 		this.unitId = unitId;
-		this.timestamp = timestamp;
+		this.timestamp = timestamp.getTime();
 		this.value = value;
+	}
+
+	public SensorDataPublishDto(SensorData data) {
+		this.id = data.getId();
+		this.unitId = 1L;
+		this.timestamp = data.getTimestamp().getTime();
+		this.value = data.getValueSensor();
 	}
 
 	
@@ -38,11 +47,11 @@ public class PublishDataStreamResDto implements Serializable{
 		this.unitId = unitId;
 	}
 
-	public Instant getTimestamp() {
+	public Long getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimestamp(Instant timestamp) {
+	public void setTimestamp(Long timestamp) {
 		this.timestamp = timestamp;
 	}
 

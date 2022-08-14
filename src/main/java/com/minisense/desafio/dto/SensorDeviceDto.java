@@ -6,28 +6,25 @@ import java.util.List;
 
 import com.minisense.desafio.entities.SensorDevice;
 
-public class GetSensorDeviceDto implements Serializable{
+public class SensorDeviceDto implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private String key;
 	private String label;
 	private String description;
 	
-	private List<DataStreamResDto> streams = new ArrayList<>();
+	private List<DataStreamDto> streams = new ArrayList<>();
 
-	public GetSensorDeviceDto() {}
+	public SensorDeviceDto() {}
 	
-	public GetSensorDeviceDto(Long id, String key, String label, String description) {
+	public SensorDeviceDto(Long id, String label, String description) {
 		this.id = id;
-		this.key = key;
 		this.label = label;
 		this.description = description;
 	}
 	
-	public GetSensorDeviceDto(SensorDevice device) {
+	public SensorDeviceDto(SensorDevice device) {
 		this.id = device.getId();
-		this.key = device.getKeyDevice();
 		this.label = device.getLabel();
 		this.description = device.getDescription();
 		//this.streams = device.getStreams();
@@ -47,14 +44,6 @@ public class GetSensorDeviceDto implements Serializable{
 		this.id = id;
 	}
 
-	public String getKey() {
-		return key;
-	}
-
-	public void setKey(String key) {
-		this.key = key;
-	}
-
 	public String getLabel() {
 		return label;
 	}
@@ -71,11 +60,11 @@ public class GetSensorDeviceDto implements Serializable{
 		this.description = description;
 	}
 
-	public List<DataStreamResDto> getStreams() {
+	public List<DataStreamDto> getStreams() {
 		return streams;
 	}
 
-	public void setStreams(List<DataStreamResDto> streams) {
+	public void setStreams(List<DataStreamDto> streams) {
 		this.streams = streams;
 	}
 	

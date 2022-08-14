@@ -22,9 +22,6 @@ public class SensorDevice implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String keyDevice;
 	private String label;
 	private String description;
 	
@@ -53,14 +50,6 @@ public class SensorDevice implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getKeyDevice() {
-		return keyDevice;
-	}
-
-	public void setKeyDevice(String keyDevice) {
-		this.keyDevice = keyDevice;
 	}
 
 	public String getLabel() {
@@ -109,8 +98,5 @@ public class SensorDevice implements Serializable{
 		SensorDevice other = (SensorDevice) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
-	
 
 }

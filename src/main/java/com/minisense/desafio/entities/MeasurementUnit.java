@@ -18,7 +18,6 @@ public class MeasurementUnit implements Serializable{
 	private Long id;
 	private String symbol;
 	private String description;
-
 	
 	public MeasurementUnit() {}
 
@@ -51,6 +50,4 @@ public class MeasurementUnit implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
 }

@@ -18,14 +18,12 @@ import javax.persistence.Table;
 @Table(name = "tb_dataStream")
 public class DataStream implements Serializable{
 	private static final long serialVersionUID = 1L;
-	
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String label;
 	private Boolean enabled = false;
-	
 	
 	@OneToMany(mappedBy = "streams")
 	private List<SensorData> collects = new ArrayList<>();
