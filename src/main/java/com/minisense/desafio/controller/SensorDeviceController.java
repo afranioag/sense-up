@@ -18,9 +18,9 @@ public class SensorDeviceController {
     @Autowired
     private SensorDeviceService deviceService;
 
-    @PostMapping
-    public ResponseEntity<SensorDeviceResDto> save(@RequestBody SensorDeviceResDto dto) {
-        dto = deviceService.save(dto);
+    @PostMapping(value = "/users/{id}")
+    public ResponseEntity<SensorDeviceResDto> save(@PathVariable Long id, @RequestBody SensorDeviceResDto dto) {
+        dto = deviceService.save(id, dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);

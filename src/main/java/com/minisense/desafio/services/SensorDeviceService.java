@@ -3,16 +3,10 @@ package com.minisense.desafio.services;
 import com.minisense.desafio.dto.DataStreamDto;
 import com.minisense.desafio.dto.SensorDataPublishDto;
 import com.minisense.desafio.dto.SensorDeviceResDto;
-import com.minisense.desafio.entities.DataStream;
-import com.minisense.desafio.entities.MeasurementUnit;
-import com.minisense.desafio.entities.SensorData;
-import com.minisense.desafio.entities.SensorDevice;
+import com.minisense.desafio.entities.*;
 import com.minisense.desafio.exceptions.DatabaseException;
 import com.minisense.desafio.exceptions.UserNotFoundException;
-import com.minisense.desafio.repositories.DataStreamRepository;
-import com.minisense.desafio.repositories.MeasurementUnitRepository;
-import com.minisense.desafio.repositories.SensorDataRepository;
-import com.minisense.desafio.repositories.SensorDeviceRepository;
+import com.minisense.desafio.repositories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,13 +32,26 @@ public class SensorDeviceService {
     @Autowired
     private SensorDataRepository dataRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Transactional
-    public SensorDeviceResDto save(SensorDeviceResDto dto) {
-        SensorDevice device = new SensorDevice();
-        device.setLabel(dto.getLabel());
-        device.setDescription(dto.getDescription());
-        deviceRepository.save(device);
-        return new SensorDeviceResDto(device);
+    public SensorDeviceResDto save(Long id, SensorDeviceResDto dto) {
+        try {
+            User user = userRepository.getOne(id);
+            SensorDevice device = new SensorDevice();
+            device.setLabel(dto.getLabel());
+            device.setDescription(dto.getDescription());
+            device.setUser(user);
+            deviceRepository.save(device);
+
+            user.getDevices().add(device);
+            userRepository.save(user);
+            return new SensorDeviceResDto(device);
+        }
+        catch (EntityNotFoundException e){
+            throw new UserNotFoundException();
+        }
     }
 
     @Transactional
