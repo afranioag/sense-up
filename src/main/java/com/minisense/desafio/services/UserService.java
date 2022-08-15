@@ -7,7 +7,7 @@ import com.minisense.desafio.dto.UserInsertDto;
 import com.minisense.desafio.entities.Role;
 import com.minisense.desafio.entities.User;
 import com.minisense.desafio.exceptions.DatabaseException;
-import com.minisense.desafio.exceptions.UserNotFoundException;
+import com.minisense.desafio.exceptions.ResourceNotFoundException;
 import com.minisense.desafio.repositories.RoleRepository;
 import com.minisense.desafio.repositories.UserRepository;
 import org.slf4j.Logger;
@@ -58,7 +58,7 @@ public class UserService implements UserDetailsService {
 	@Transactional(readOnly = true)
 	public UserDto findById(Long id) {
 		Optional<User> userOpt = userRepository.findById(id);
-		User user = userOpt.orElseThrow(() -> new UserNotFoundException());
+		User user = userOpt.orElseThrow(() -> new ResourceNotFoundException("Entity not found. userId: " + id));
 		return new UserDto(user);
 	}
 	
@@ -71,7 +71,7 @@ public class UserService implements UserDetailsService {
 			return new UserDto(user);
 		}
 		catch (EntityNotFoundException e) {
-			throw new UserNotFoundException();
+			throw new ResourceNotFoundException("Entity not found. userId: " + id);
 		}
 	}
 
@@ -80,7 +80,7 @@ public class UserService implements UserDetailsService {
 			userRepository.deleteById(id);
 		}
 		catch(EmptyResultDataAccessException e) {
-			throw new UserNotFoundException();
+			throw new ResourceNotFoundException("Entity not found. userId: " + id);
 		}
 		catch (DataIntegrityViolationException e) {
 			throw new DatabaseException();
@@ -88,9 +88,9 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Transactional
-    public UserDto addRoles(Long userId, UserRoleDto dto) {
+    public UserDto addRoles(Long id, UserRoleDto dto) {
 		try {
-			User user = userRepository.getOne(userId);
+			User user = userRepository.getOne(id);
 			Role role = roleRepository.getOne(dto.getRoleId());
 			user.getRoles().add(role);
 			user = userRepository.save(user);
@@ -98,13 +98,13 @@ public class UserService implements UserDetailsService {
 			return new UserDto(user);
 		}
 		catch (EntityNotFoundException e) {
-			throw new UserNotFoundException();
+			throw new ResourceNotFoundException("Entity not found. userId: " + id);
 		}
     }
 
-	public void removeRoles(Long userId, UserRoleDto dto) {
+	public void removeRoles(Long id, UserRoleDto dto) {
 		try {
-			User user = userRepository.findById(userId).get();
+			User user = userRepository.findById(id).get();
 			Role role = roleRepository.getOne(dto.getRoleId());
 			Set<Role> roles = user.getRoles();
 			user.getRoles().clear();
@@ -118,7 +118,7 @@ public class UserService implements UserDetailsService {
 			userRepository.save(user);
 		}
 		catch(EmptyResultDataAccessException e) {
-			throw new UserNotFoundException();
+			throw new ResourceNotFoundException("Entity not found. userId: " + id);
 		}
 		catch (DataIntegrityViolationException e) {
 			throw new DatabaseException();

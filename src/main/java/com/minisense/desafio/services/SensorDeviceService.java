@@ -6,7 +6,7 @@ import com.minisense.desafio.dto.SensorDeviceDto;
 import com.minisense.desafio.dto.SensorDeviceResDto;
 import com.minisense.desafio.entities.*;
 import com.minisense.desafio.exceptions.DatabaseException;
-import com.minisense.desafio.exceptions.UserNotFoundException;
+import com.minisense.desafio.exceptions.ResourceNotFoundException;
 import com.minisense.desafio.repositories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,7 +53,7 @@ public class SensorDeviceService {
             return new SensorDeviceResDto(device);
         }
         catch (EntityNotFoundException e){
-            throw new UserNotFoundException();
+            throw new ResourceNotFoundException("Entity not found. userId: " + id);
         }
     }
 
@@ -80,7 +79,7 @@ public class SensorDeviceService {
         }
         catch (EntityNotFoundException e) {
             logger.error("Entity not found. SensorDeviceId {}, measurementUnitId {}", id, dto.getUnitId());
-            throw new UserNotFoundException();
+            throw new ResourceNotFoundException("Entity not found");
         }
         catch (DataIntegrityViolationException e) {
             logger.error("Integrity violation. SensorDeviceId {}, measurementUnitId {}", id, dto.getUnitId());
@@ -105,14 +104,14 @@ public class SensorDeviceService {
             return new SensorDataPublishDto(data);
         }
         catch (EntityNotFoundException e){
-            throw new UserNotFoundException();
+            throw new ResourceNotFoundException("Entity not found. dataStreamId: " + streamId);
         }
     }
 
     @Transactional(readOnly = true)
     public List<SensorDeviceDto> findAllDevices(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException());
+                .orElseThrow(() -> new ResourceNotFoundException("Entity not found. userId: " + id));
 
 
         return user.getDevices().stream().map(dev -> new SensorDeviceDto(dev, dev.getStreams()))
@@ -122,7 +121,7 @@ public class SensorDeviceService {
     @Transactional(readOnly = true)
     public SensorDeviceDto deviceFindById(Long id) {
         SensorDevice sensorDevice = deviceRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException());
+                .orElseThrow(() -> new ResourceNotFoundException("Entity not found. sensorDeviceId: " + id));
 
         return new SensorDeviceDto(sensorDevice, sensorDevice.getStreams(), 5);
     }
@@ -130,7 +129,7 @@ public class SensorDeviceService {
     @Transactional(readOnly = true)
     public DataStreamDto streamFindById(Long id) {
         DataStream stream = streamRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException());
+                .orElseThrow(() -> new ResourceNotFoundException("Entity not found. dataStreamId: " + id));
 
         return new DataStreamDto(stream, -1);
     }
