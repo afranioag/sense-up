@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class SensorDeviceController {
     private SensorDeviceService deviceService;
 
     @PostMapping(value = "/{id}/devices")
-    public ResponseEntity<SensorDeviceResDto> insertDevice(@PathVariable Long id, @RequestBody SensorDeviceResDto dto) {
+    public ResponseEntity<SensorDeviceResDto> insertDevice(@PathVariable Long id, @Valid @RequestBody SensorDeviceResDto dto) {
         dto = deviceService.save(id, dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
@@ -27,7 +28,7 @@ public class SensorDeviceController {
     }
 
     @PostMapping(value = "/devices/{id}/streams")
-    public ResponseEntity<DataStreamDto> insertStream(@PathVariable Long id, @RequestBody DataStreamDto dto) {
+    public ResponseEntity<DataStreamDto> insertStream(@PathVariable Long id, @Valid @RequestBody DataStreamDto dto) {
         dto = deviceService.insertStream(id, dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
@@ -35,7 +36,7 @@ public class SensorDeviceController {
     }
 
     @PostMapping(value = "/devices/streams/{id}/measurements")
-    public ResponseEntity<SensorDataPublishDto> insertMeasurements(@PathVariable Long id, @RequestBody SensorDataPublishDto dto) {
+    public ResponseEntity<SensorDataPublishDto> insertMeasurements(@PathVariable Long id, @Valid @RequestBody SensorDataPublishDto dto) {
         dto = deviceService.insertMeasurement(id, dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();

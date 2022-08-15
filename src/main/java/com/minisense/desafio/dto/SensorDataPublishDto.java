@@ -2,6 +2,7 @@ package com.minisense.desafio.dto;
 
 import com.minisense.desafio.entities.SensorData;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Date;
@@ -11,7 +12,10 @@ public class SensorDataPublishDto implements Serializable{
 	
 	private Long id;
 	private Long unitId;
+	@NotBlank(message = "timestamp not empty")
 	public Long timestamp;
+
+	@NotBlank(message = "value not empty")
 	public Double value;
 	
 	public SensorDataPublishDto() {}

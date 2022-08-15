@@ -2,13 +2,16 @@ package com.minisense.desafio.dto;
 
 import com.minisense.desafio.entities.SensorDevice;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 public class SensorDeviceResDto implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
+	@NotBlank(message = "label not empty")
 	private String label;
+	@NotBlank(message = "description not empty")
 	private String description;
 	
 	

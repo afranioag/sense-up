@@ -3,17 +3,19 @@ package com.minisense.desafio.dto;
 import com.minisense.desafio.entities.DataStream;
 import com.minisense.desafio.entities.SensorData;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class DataStreamDto implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	@NotBlank(message = "label not empty")
 	private String label;
 	private Long deviceId;
+	@NotBlank(message = "unitId not empty")
 	private Long unitId;
 	private int measurementCount;
 

@@ -6,11 +6,17 @@ import java.util.Set;
 
 import com.minisense.desafio.entities.User;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 public class UserDto implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	@NotBlank(message = "name not empty")
 	private String name;
+	@NotBlank(message = "email not empty")
+	@Email(message = "Invalid Email")
 	private String email;
 	
 	Set<RoleDto> roles = new HashSet<>();

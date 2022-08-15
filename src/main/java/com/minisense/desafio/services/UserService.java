@@ -1,7 +1,7 @@
 package com.minisense.desafio.services;
 
 import com.minisense.desafio.dto.RoleDto;
-import com.minisense.desafio.dto.UserAddRoleDto;
+import com.minisense.desafio.dto.UserRoleDto;
 import com.minisense.desafio.dto.UserDto;
 import com.minisense.desafio.dto.UserInsertDto;
 import com.minisense.desafio.entities.Role;
@@ -88,7 +88,7 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Transactional
-    public UserDto addRoles(Long userId, UserAddRoleDto dto) {
+    public UserDto addRoles(Long userId, UserRoleDto dto) {
 		try {
 			User user = userRepository.getOne(userId);
 			Role role = roleRepository.getOne(dto.getRoleId());
@@ -102,7 +102,7 @@ public class UserService implements UserDetailsService {
 		}
     }
 
-	public void removeRoles(Long userId, UserAddRoleDto dto) {
+	public void removeRoles(Long userId, UserRoleDto dto) {
 		try {
 			User user = userRepository.findById(userId).get();
 			Role role = roleRepository.getOne(dto.getRoleId());

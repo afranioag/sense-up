@@ -3,7 +3,7 @@ package com.minisense.desafio.controller;
 import java.net.URI;
 import java.util.List;
 
-import com.minisense.desafio.dto.UserAddRoleDto;
+import com.minisense.desafio.dto.UserRoleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +21,8 @@ import com.minisense.desafio.dto.UserDto;
 import com.minisense.desafio.dto.UserInsertDto;
 import com.minisense.desafio.services.UserService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/admin/v1/users")
 public class UserController {
@@ -30,7 +32,7 @@ public class UserController {
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PostMapping
-	public ResponseEntity<UserDto> insert(@RequestBody UserInsertDto insertDto) {
+	public ResponseEntity<UserDto> insert(@Valid @RequestBody UserInsertDto insertDto) {
 		UserDto dto = userService.save(insertDto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(dto.getId()).toUri();
@@ -49,7 +51,7 @@ public class UserController {
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<UserDto> update(@PathVariable("id") Long id, @RequestBody UserDto dto) {
+	public ResponseEntity<UserDto> update(@PathVariable("id") Long id, @Valid @RequestBody UserDto dto) {
 		dto = userService.update(id, dto);
 		return ResponseEntity.ok().body(dto);
 	}
@@ -63,14 +65,14 @@ public class UserController {
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PutMapping(value = "/{id}/roles")
-	public ResponseEntity<UserDto> addRole(@PathVariable("id") Long id, @RequestBody UserAddRoleDto dto) {
+	public ResponseEntity<UserDto> addRole(@PathVariable("id") Long id, @Valid @RequestBody UserRoleDto dto) {
 		UserDto userDto = userService.addRoles(id, dto);
 		return ResponseEntity.ok().body(userDto);
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@DeleteMapping(value = "/{id}/roles")
-	public ResponseEntity<UserAddRoleDto> deleteRole(@PathVariable("id") Long id, @RequestBody UserAddRoleDto dto) {
+	public ResponseEntity<UserRoleDto> deleteRole(@PathVariable("id") Long id, @Valid @RequestBody UserRoleDto dto) {
 		userService.removeRoles(id, dto);
 		return ResponseEntity.noContent().build();
 	}
