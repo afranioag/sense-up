@@ -23,7 +23,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	private static final String[] PUBLIC = { "/auth/token", "/h2-console/**" };
 	private static final String[] LOGGED_GET = { "/api/v1/sensors/**", "/api/v1/measurements/**"};
 	private static final String[] OPERATOR_OR_ADMIN = { "/api/v1/sensors/users/**", "/api/v1/measurements/**" };
-	private static final String[] ADMIN = { "/api/v1/admin/users/**"};
+	private static final String[] ADMIN = { "/admin/v1/users/**"};
 
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {

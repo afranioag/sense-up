@@ -22,7 +22,7 @@ import com.minisense.desafio.dto.UserInsertDto;
 import com.minisense.desafio.services.UserService;
 
 @RestController
-@RequestMapping(value = "/api/v1/admin/users")
+@RequestMapping(value = "/admin/v1/users")
 public class UserController {
 
 	@Autowired
