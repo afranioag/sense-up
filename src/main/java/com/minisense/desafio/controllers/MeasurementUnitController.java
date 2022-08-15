@@ -1,4 +1,4 @@
-package com.minisense.desafio.controller;
+package com.minisense.desafio.controllers;
 
 import com.minisense.desafio.dto.MeasurementUnitDto;
 import com.minisense.desafio.services.MeasurementUniService;

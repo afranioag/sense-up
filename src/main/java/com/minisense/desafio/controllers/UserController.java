@@ -1,4 +1,4 @@
-package com.minisense.desafio.controller;
+package com.minisense.desafio.controllers;
 
 import java.net.URI;
 import java.util.List;

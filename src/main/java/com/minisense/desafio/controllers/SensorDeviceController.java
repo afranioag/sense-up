@@ -1,4 +1,4 @@
-package com.minisense.desafio.controller;
+package com.minisense.desafio.controllers;
 
 import com.minisense.desafio.dto.*;
 import com.minisense.desafio.services.SensorDeviceService;
