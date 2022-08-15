@@ -12,21 +12,21 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/v1/devices")
+@RequestMapping(value = "/api/v1/sensors/users")
 public class SensorDeviceController {
 
     @Autowired
     private SensorDeviceService deviceService;
 
-    @PostMapping(value = "/users/{id}")
-    public ResponseEntity<SensorDeviceResDto> save(@PathVariable Long id, @RequestBody SensorDeviceResDto dto) {
+    @PostMapping(value = "/{id}/devices")
+    public ResponseEntity<SensorDeviceResDto> insertDevice(@PathVariable Long id, @RequestBody SensorDeviceResDto dto) {
         dto = deviceService.save(id, dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
     }
 
-    @PostMapping(value = "/{id}/streams")
+    @PostMapping(value = "/devices/{id}/streams")
     public ResponseEntity<DataStreamDto> insertStream(@PathVariable Long id, @RequestBody DataStreamDto dto) {
         dto = deviceService.insertStream(id, dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -34,12 +34,27 @@ public class SensorDeviceController {
         return ResponseEntity.created(uri).body(dto);
     }
 
-    @PostMapping(value = "/streams/{id}/measurements")
+    @PostMapping(value = "/devices/streams/{id}/measurements")
     public ResponseEntity<SensorDataPublishDto> insertMeasurements(@PathVariable Long id, @RequestBody SensorDataPublishDto dto) {
         dto = deviceService.insertMeasurement(id, dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
+    }
+
+    @GetMapping(value = "/{id}/devices")
+    public ResponseEntity<List<SensorDeviceDto>> findAllDevices(@PathVariable Long id) {
+        return ResponseEntity.ok().body(deviceService.findAllDevices(id));
+    }
+
+    @GetMapping(value = "/devices/{id}")
+    public ResponseEntity<SensorDeviceDto> deviceFindById(@PathVariable Long id) {
+        return ResponseEntity.ok().body(deviceService.deviceFindById(id));
+    }
+
+    @GetMapping(value = "/devices/streams/{id}")
+    public ResponseEntity<DataStreamDto> streamFindById(@PathVariable Long id) {
+        return ResponseEntity.ok().body(deviceService.streamFindById(id));
     }
 
 }

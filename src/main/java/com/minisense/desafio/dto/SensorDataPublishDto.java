@@ -23,6 +23,11 @@ public class SensorDataPublishDto implements Serializable{
 		this.value = value;
 	}
 
+	public SensorDataPublishDto(Date timestamp, Double value) {
+		this.timestamp = timestamp.getTime();
+		this.value = value;
+	}
+
 	public SensorDataPublishDto(SensorData data) {
 		this.id = data.getId();
 		this.unitId = 1L;

@@ -2,6 +2,7 @@ package com.minisense.desafio.services;
 
 import com.minisense.desafio.dto.DataStreamDto;
 import com.minisense.desafio.dto.SensorDataPublishDto;
+import com.minisense.desafio.dto.SensorDeviceDto;
 import com.minisense.desafio.dto.SensorDeviceResDto;
 import com.minisense.desafio.entities.*;
 import com.minisense.desafio.exceptions.DatabaseException;
@@ -16,6 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SensorDeviceService {
@@ -105,5 +109,30 @@ public class SensorDeviceService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public List<SensorDeviceDto> findAllDevices(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException());
+
+
+        return user.getDevices().stream().map(dev -> new SensorDeviceDto(dev, dev.getStreams()))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public SensorDeviceDto deviceFindById(Long id) {
+        SensorDevice sensorDevice = deviceRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException());
+
+        return new SensorDeviceDto(sensorDevice, sensorDevice.getStreams(), 5);
+    }
+
+    @Transactional(readOnly = true)
+    public DataStreamDto streamFindById(Long id) {
+        DataStream stream = streamRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException());
+
+        return new DataStreamDto(stream, -1);
+    }
 
 }

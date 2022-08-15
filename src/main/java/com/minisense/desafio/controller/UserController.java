@@ -74,6 +74,4 @@ public class UserController {
 		userService.removeRoles(id, dto);
 		return ResponseEntity.noContent().build();
 	}
-	
-
 }

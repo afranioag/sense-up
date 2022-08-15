@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.minisense.desafio.entities.DataStream;
 import com.minisense.desafio.entities.SensorDevice;
 
 public class SensorDeviceDto implements Serializable{
@@ -27,14 +28,21 @@ public class SensorDeviceDto implements Serializable{
 		this.id = device.getId();
 		this.label = device.getLabel();
 		this.description = device.getDescription();
-		//this.streams = device.getStreams();
 	}
-	
-//	public GetSensorDeviceDto(SensorDevice device, List<DataStreamResDto> streams) {
-//		this(device);
-//		streams.forEach(stream -> this.streams.add(new StreamDto(stream))); // Falta criar esse detalhe para salvar a lista de streams
-//	}
 
+	public SensorDeviceDto(SensorDevice device, List<DataStream> streams) {
+		this.id = device.getId();
+		this.label = device.getLabel();
+		this.description = device.getDescription();
+		streams.forEach(stream -> this.streams.add(new DataStreamDto(stream)));
+	}
+
+	public SensorDeviceDto(SensorDevice device, List<DataStream> streams, int numberOsStreams) {
+		this.id = device.getId();
+		this.label = device.getLabel();
+		this.description = device.getDescription();
+		streams.forEach(stream -> this.streams.add(new DataStreamDto(stream, numberOsStreams)));
+	}
 
 	public Long getId() {
 		return id;

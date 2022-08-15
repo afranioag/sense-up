@@ -1,8 +1,12 @@
 package com.minisense.desafio.dto;
 
 import com.minisense.desafio.entities.DataStream;
+import com.minisense.desafio.entities.SensorData;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class DataStreamDto implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -13,6 +17,7 @@ public class DataStreamDto implements Serializable{
 	private Long unitId;
 	private int measurementCount;
 
+	private List<SensorDataPublishShowDto> measurements;
 
 	public DataStreamDto() {}
 	
@@ -30,6 +35,17 @@ public class DataStreamDto implements Serializable{
 		this.deviceId = stream.getSensorDevice().getId();
 		this.unitId = stream.getUnit().getId();
 		this.measurementCount = stream.getCollects().size();
+	}
+
+	public DataStreamDto(DataStream stream, int numberOsStreams) {
+		this.measurements = new ArrayList<>();
+
+		this.id = stream.getId();
+		this.label = stream.getLabel();
+		this.deviceId = stream.getSensorDevice().getId();
+		this.unitId = stream.getUnit().getId();
+		this.measurementCount = stream.getCollects().size();
+		showPublish(stream.getCollects(), numberOsStreams);
 	}
 
 	public Long getId() {
@@ -71,5 +87,24 @@ public class DataStreamDto implements Serializable{
 	public void setMeasurementCount(int measurementCount) {
 		this.measurementCount = measurementCount;
 	}
-	
+
+	public List<SensorDataPublishShowDto> getMeasurements() {
+		return measurements;
+	}
+
+	private void showPublish(List<SensorData> collects,  int numberOfStreams) {
+		if(numberOfStreams < 0 ) {
+			collects.forEach(str -> this.measurements.add(new SensorDataPublishShowDto(str)));
+		} else {
+			numberOfStreams = collects.size() < numberOfStreams ? collects.size() : numberOfStreams;
+			int lastIndex = collects.size() - 1;
+
+			while (numberOfStreams > 0) {
+				this.measurements.add(
+						new SensorDataPublishShowDto(collects.get(lastIndex)));
+				numberOfStreams -= 1;
+				lastIndex -= 1;
+			}
+		}
+	}
 }
