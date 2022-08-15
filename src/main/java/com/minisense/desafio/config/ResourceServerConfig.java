@@ -20,10 +20,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 	@Autowired
 	private JwtTokenStore tokenStore;
-
 	private static final String[] PUBLIC = { "/auth/token", "/h2-console/**" };
-	private static final String[] OPERATOR_OR_ADMIN = { "/api/v1/devices/**", "/api/v1/users/**" };
-	private static final String[] ADMIN = { "/api/v1/users/**" };
+	private static final String[] LOGGED_GET = { "/api/v1/sensors/**", "/api/v1/measurements/**"};
+	private static final String[] OPERATOR_OR_ADMIN = { "/api/v1/sensors/users/**", "/api/v1/measurements/**" };
+	private static final String[] ADMIN = { "/api/v1/admin/users/**"};
 
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -40,7 +40,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 		http.authorizeRequests()
 		.antMatchers(PUBLIC).permitAll()
-		.antMatchers(HttpMethod.GET, OPERATOR_OR_ADMIN).permitAll()
+		.antMatchers(HttpMethod.GET, LOGGED_GET).permitAll()
 		.antMatchers(OPERATOR_OR_ADMIN).hasAnyRole("ADMIN", "OPERATOR")
 		.antMatchers(ADMIN).hasRole("ADMIN")
 		.anyRequest().authenticated();
