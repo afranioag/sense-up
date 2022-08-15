@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.minisense.desafio.dto.UserDto;
-import com.minisense.desafio.dto.UserInsertDto;
+import com.minisense.desafio.dto.UserPasswordDto;
 import com.minisense.desafio.services.UserService;
 
 import javax.validation.Valid;
@@ -32,7 +32,7 @@ public class UserController {
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PostMapping
-	public ResponseEntity<UserDto> insert(@Valid @RequestBody UserInsertDto insertDto) {
+	public ResponseEntity<UserDto> insert(@Valid @RequestBody UserPasswordDto insertDto) {
 		UserDto dto = userService.save(insertDto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(dto.getId()).toUri();

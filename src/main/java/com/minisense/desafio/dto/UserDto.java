@@ -19,7 +19,7 @@ public class UserDto implements Serializable{
 	@Email(message = "Invalid Email")
 	private String email;
 	
-	Set<RoleDto> roles = new HashSet<>();
+	Set<UserRoleResDto> roles = new HashSet<>();
 	
 	
 	public UserDto() {}
@@ -34,7 +34,7 @@ public class UserDto implements Serializable{
 		this.id = user.getId();
 		this.name = user.getName();
 		this.email = user.getEmail();
-		user.getRoles().forEach(role -> this.roles.add(new RoleDto(role)));
+		user.getRoles().forEach(role -> this.roles.add(new UserRoleResDto(role)));
 	}
 	
 	
@@ -62,7 +62,7 @@ public class UserDto implements Serializable{
 		this.email = email;
 	}
 
-	public Set<RoleDto> getRoles() {
+	public Set<UserRoleResDto> getRoles() {
 		return roles;
 	}
 	

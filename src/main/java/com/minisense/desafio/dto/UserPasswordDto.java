@@ -1,11 +1,11 @@
 package com.minisense.desafio.dto;
 
-public class UserInsertDto extends UserDto{
+public class UserPasswordDto extends UserDto {
 	private static final long serialVersionUID = 1L;
 
 	private String password;
 
-	public UserInsertDto() {
+	public UserPasswordDto() {
 		super();
 	}
 

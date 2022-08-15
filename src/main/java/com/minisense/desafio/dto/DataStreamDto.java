@@ -15,11 +15,11 @@ public class DataStreamDto implements Serializable{
 	@NotBlank(message = "label not empty")
 	private String label;
 	private Long deviceId;
-	@NotBlank(message = "unitId not empty")
+
 	private Long unitId;
 	private int measurementCount;
 
-	private List<SensorDataPublishShowDto> measurements;
+	private List<SensorDataPublishResDto> measurements;
 
 	public DataStreamDto() {}
 	
@@ -90,20 +90,20 @@ public class DataStreamDto implements Serializable{
 		this.measurementCount = measurementCount;
 	}
 
-	public List<SensorDataPublishShowDto> getMeasurements() {
+	public List<SensorDataPublishResDto> getMeasurements() {
 		return measurements;
 	}
 
 	private void showPublish(List<SensorData> collects,  int numberOfStreams) {
 		if(numberOfStreams < 0 ) {
-			collects.forEach(str -> this.measurements.add(new SensorDataPublishShowDto(str)));
+			collects.forEach(str -> this.measurements.add(new SensorDataPublishResDto(str)));
 		} else {
 			numberOfStreams = collects.size() < numberOfStreams ? collects.size() : numberOfStreams;
 			int lastIndex = collects.size() - 1;
 
 			while (numberOfStreams > 0) {
 				this.measurements.add(
-						new SensorDataPublishShowDto(collects.get(lastIndex)));
+						new SensorDataPublishResDto(collects.get(lastIndex)));
 				numberOfStreams -= 1;
 				lastIndex -= 1;
 			}

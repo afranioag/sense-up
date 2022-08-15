@@ -1,20 +1,21 @@
 package com.minisense.desafio.dto;
 
-import com.minisense.desafio.entities.SensorDevice;
-
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.minisense.desafio.entities.DataStream;
+import com.minisense.desafio.entities.SensorDevice;
 
 public class SensorDeviceResDto implements Serializable{
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long id;
-	@NotBlank(message = "label not empty")
 	private String label;
-	@NotBlank(message = "description not empty")
 	private String description;
 	
-	
+	private List<DataStreamDto> streams = new ArrayList<>();
+
 	public SensorDeviceResDto() {}
 	
 	public SensorDeviceResDto(Long id, String label, String description) {
@@ -22,12 +23,26 @@ public class SensorDeviceResDto implements Serializable{
 		this.label = label;
 		this.description = description;
 	}
+	
 	public SensorDeviceResDto(SensorDevice device) {
 		this.id = device.getId();
 		this.label = device.getLabel();
 		this.description = device.getDescription();
 	}
 
+	public SensorDeviceResDto(SensorDevice device, List<DataStream> streams) {
+		this.id = device.getId();
+		this.label = device.getLabel();
+		this.description = device.getDescription();
+		streams.forEach(stream -> this.streams.add(new DataStreamDto(stream)));
+	}
+
+	public SensorDeviceResDto(SensorDevice device, List<DataStream> streams, int numberOsStreams) {
+		this.id = device.getId();
+		this.label = device.getLabel();
+		this.description = device.getDescription();
+		streams.forEach(stream -> this.streams.add(new DataStreamDto(stream, numberOsStreams)));
+	}
 
 	public Long getId() {
 		return id;
@@ -53,4 +68,13 @@ public class SensorDeviceResDto implements Serializable{
 		this.description = description;
 	}
 
+	public List<DataStreamDto> getStreams() {
+		return streams;
+	}
+
+	public void setStreams(List<DataStreamDto> streams) {
+		this.streams = streams;
+	}
+	
+	
 }

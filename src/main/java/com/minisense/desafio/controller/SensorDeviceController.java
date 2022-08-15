@@ -1,7 +1,6 @@
 package com.minisense.desafio.controller;
 
 import com.minisense.desafio.dto.*;
-import com.minisense.desafio.services.MeasurementUniService;
 import com.minisense.desafio.services.SensorDeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,7 @@ public class SensorDeviceController {
     private SensorDeviceService deviceService;
 
     @PostMapping(value = "/{id}/devices")
-    public ResponseEntity<SensorDeviceResDto> insertDevice(@PathVariable Long id, @Valid @RequestBody SensorDeviceResDto dto) {
+    public ResponseEntity<SensorDeviceReqDto> insertDevice(@PathVariable Long id, @Valid @RequestBody SensorDeviceReqDto dto) {
         dto = deviceService.save(id, dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
@@ -36,7 +35,7 @@ public class SensorDeviceController {
     }
 
     @PostMapping(value = "/devices/streams/{id}/measurements")
-    public ResponseEntity<SensorDataPublishDto> insertMeasurements(@PathVariable Long id, @Valid @RequestBody SensorDataPublishDto dto) {
+    public ResponseEntity<SensorDataPublishReqDto> insertMeasurements(@PathVariable Long id, @Valid @RequestBody SensorDataPublishReqDto dto) {
         dto = deviceService.insertMeasurement(id, dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
@@ -44,12 +43,12 @@ public class SensorDeviceController {
     }
 
     @GetMapping(value = "/{id}/devices")
-    public ResponseEntity<List<SensorDeviceDto>> findAllDevices(@PathVariable Long id) {
+    public ResponseEntity<List<SensorDeviceResDto>> findAllDevices(@PathVariable Long id) {
         return ResponseEntity.ok().body(deviceService.findAllDevices(id));
     }
 
     @GetMapping(value = "/devices/{id}")
-    public ResponseEntity<SensorDeviceDto> deviceFindById(@PathVariable Long id) {
+    public ResponseEntity<SensorDeviceResDto> deviceFindById(@PathVariable Long id) {
         return ResponseEntity.ok().body(deviceService.deviceFindById(id));
     }
 

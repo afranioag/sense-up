@@ -5,21 +5,21 @@ import com.minisense.desafio.entities.SensorData;
 import java.io.Serializable;
 import java.util.Date;
 
-public class SensorDataPublishShowDto implements Serializable{
+public class SensorDataPublishResDto implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	public Long timestamp;
 	public Double value;
 
-	public SensorDataPublishShowDto() {}
+	public SensorDataPublishResDto() {}
 
-	public SensorDataPublishShowDto( Date timestamp, Double value) {
+	public SensorDataPublishResDto(Date timestamp, Double value) {
 		this.timestamp = timestamp.getTime();
 		this.value = value;
 	}
 
 
-	public SensorDataPublishShowDto(SensorData data) {
+	public SensorDataPublishResDto(SensorData data) {
 		this.timestamp = data.getTimestamp().getTime();
 		this.value = data.getValueSensor();
 	}

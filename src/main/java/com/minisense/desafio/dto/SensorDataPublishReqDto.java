@@ -2,37 +2,33 @@ package com.minisense.desafio.dto;
 
 import com.minisense.desafio.entities.SensorData;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Date;
 
-public class SensorDataPublishDto implements Serializable{
+public class SensorDataPublishReqDto implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	private Long unitId;
-	@NotBlank(message = "timestamp not empty")
 	public Long timestamp;
 
-	@NotBlank(message = "value not empty")
 	public Double value;
 	
-	public SensorDataPublishDto() {}
+	public SensorDataPublishReqDto() {}
 	
-	public SensorDataPublishDto(Long id, Long unitId, Date timestamp, Double value) {
+	public SensorDataPublishReqDto(Long id, Long unitId, Date timestamp, Double value) {
 		this.id = id;
 		this.unitId = unitId;
 		this.timestamp = timestamp.getTime();
 		this.value = value;
 	}
 
-	public SensorDataPublishDto(Date timestamp, Double value) {
+	public SensorDataPublishReqDto(Date timestamp, Double value) {
 		this.timestamp = timestamp.getTime();
 		this.value = value;
 	}
 
-	public SensorDataPublishDto(SensorData data) {
+	public SensorDataPublishReqDto(SensorData data) {
 		this.id = data.getId();
 		this.unitId = 1L;
 		this.timestamp = data.getTimestamp().getTime();

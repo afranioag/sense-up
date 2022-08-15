@@ -1,9 +1,9 @@
 package com.minisense.desafio.services;
 
-import com.minisense.desafio.dto.RoleDto;
+import com.minisense.desafio.dto.UserRoleResDto;
 import com.minisense.desafio.dto.UserRoleDto;
 import com.minisense.desafio.dto.UserDto;
-import com.minisense.desafio.dto.UserInsertDto;
+import com.minisense.desafio.dto.UserPasswordDto;
 import com.minisense.desafio.entities.Role;
 import com.minisense.desafio.entities.User;
 import com.minisense.desafio.exceptions.DatabaseException;
@@ -42,7 +42,7 @@ public class UserService implements UserDetailsService {
 	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Transactional
-	public UserDto save(UserInsertDto dto) {
+	public UserDto save(UserPasswordDto dto) {
 		User user = new User();
 		copyDtoUser(dto, user);
 		user.setPassword(passwordEncoder.encode(dto.getPassword()));
@@ -130,7 +130,7 @@ public class UserService implements UserDetailsService {
 		user.setEmail(dto.getEmail());
 		user.setName(dto.getName());
 		user.getRoles().clear();
-		for(RoleDto roleDto: dto.getRoles()) {
+		for(UserRoleResDto roleDto: dto.getRoles()) {
 			Role role = roleRepository.getOne(roleDto.getId());
 			user.getRoles().add(role);
 		}
