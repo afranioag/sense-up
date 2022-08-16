@@ -1,3 +1,11 @@
+#####################################################################################################
+###                                           IMPORTANTE                                          ###
+###                                                                                               ###
+###            É MUITO IMPORTANTE QUE A ORDEM E OS DADOS DESSE ARQUIVO NÃO SEJAM ALTERADAS        ###
+###            OS TESTES FORAM FEITOS BASEADOS NAS INFORMAÇÕES CONTIDA NESTE ARQUIVO              ###
+#####################################################################################################
+
+
 /* Adicionando usuarios */
 INSERT INTO tb_user (email, name, password) VALUES ('sergio@gmail.com', 'sergio', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
 INSERT INTO tb_user (email, name, password) VALUES ('isaac@gmail.com', 'isaac', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
