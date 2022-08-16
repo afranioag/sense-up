@@ -53,7 +53,7 @@ public class SensorDeviceController {
     }
 
     @GetMapping(value = "/devices/streams/{id}")
-    public ResponseEntity<DataStreamDto> streamFindById(@PathVariable Long id) {
+    public ResponseEntity<DataStreamMeasurementsDto> streamFindById(@PathVariable Long id) {
         return ResponseEntity.ok().body(deviceService.streamFindById(id));
     }
 

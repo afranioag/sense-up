@@ -40,7 +40,6 @@ public class DataStream implements Serializable{
 	public DataStream() {}
 
 	public DataStream(Long id, String label, MeasurementUnit unit ) {
-		super();
 		this.id = id;
 		this.label = label;
 		this.unit = unit;

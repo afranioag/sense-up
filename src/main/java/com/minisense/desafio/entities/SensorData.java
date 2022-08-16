@@ -14,6 +14,7 @@ public class SensorData implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(name = "instant")
 	private Date timestamp;
 	private Double valueSensor;
 	

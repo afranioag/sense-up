@@ -1,9 +1,6 @@
 package com.minisense.desafio.services;
 
-import com.minisense.desafio.dto.DataStreamDto;
-import com.minisense.desafio.dto.SensorDataPublishReqDto;
-import com.minisense.desafio.dto.SensorDeviceResDto;
-import com.minisense.desafio.dto.SensorDeviceReqDto;
+import com.minisense.desafio.dto.*;
 import com.minisense.desafio.entities.*;
 import com.minisense.desafio.exceptions.DatabaseException;
 import com.minisense.desafio.exceptions.ResourceNotFoundException;
@@ -126,16 +123,14 @@ public class SensorDeviceService {
     public SensorDeviceResDto deviceFindById(Long id) {
         SensorDevice sensorDevice = deviceRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Entity not found. sensorDeviceId: " + id));
-
         return new SensorDeviceResDto(sensorDevice, sensorDevice.getStreams(), 5);
     }
 
     @Transactional(readOnly = true)
-    public DataStreamDto streamFindById(Long id) {
+    public DataStreamMeasurementsDto streamFindById(Long id) {
         DataStream stream = streamRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Entity not found. dataStreamId: " + id));
-
-        return new DataStreamDto(stream, -1);
+        return new DataStreamMeasurementsDto(stream, -1);
     }
 
 }

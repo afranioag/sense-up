@@ -41,7 +41,7 @@ public class SensorDeviceResDto implements Serializable{
 		this.id = device.getId();
 		this.label = device.getLabel();
 		this.description = device.getDescription();
-		streams.forEach(stream -> this.streams.add(new DataStreamDto(stream, numberOsStreams)));
+		streams.forEach(stream -> this.streams.add(new DataStreamMeasurementsDto(stream, numberOsStreams)));
 	}
 
 	public Long getId() {
